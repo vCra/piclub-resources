@@ -1,0 +1,58 @@
+\documentclass[11pt, oneside]{amsart}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\geometry{letterpaper}
+
+\title{Using Airplay on the raspberry Pi}
+\author{Aaron Walker - Raspberry Pu Club}
+
+\begin{document}
+\maketitle
+
+Airplay is a piece of technology, created by Apple  that allows uses to stream, or “Cast” content – such as videos and music – to other devices – such as TV’s. Today we are going to create an airplay client – a device that will be capable of playing music, from an iPhone, iPad or computer. You’re going to download and run Shairport, a project that emulates the proprietary Apple AirPort protocol with software so that Raspberry Pi will appear as an AirPort receiver on your network. The AirPlay protocol isn’t something that Apple publishes publicly but somebody reverse engineered it and created an executable that will appear as an AirPlay receiver. Here is what we need
+\begin{itemize}
+  \item Raspberry Pi and accesories
+  \item Network access
+  \item Shairport
+\end{itemize}
+
+Let's install Shairport:
+
+\begin{enumerate}
+  \item Setup and start the raspberry Pi
+  \item We need to setup the audio on the pi, so that sound goes out of the audio port, rather than the HDMI port. Run  \begin{verbatim}
+    raspi-config
+  \end{verbatim}
+  Change the audio settings, so that audio does not go out of the HDMI port
+
+  \item We now need to install some prerequisites;
+  \begin{verbatim}
+    sudo apt-get install git libao-dev libssl-dev libcrypt-openssl-rsa-perl libio-socket-inet6-perl libwww-perl avahi-utils libmodule-build-perl
+  \end{verbatim}
+  \item Since iOS 6, AirPlay has used the SDP protocol. The Perl Net-SDP project will help communicate using this protocol. So you’re now going to install it.
+  \begin{verbatim}
+    git clone https://github.com/njh/perl-net-sdp.git perl-net-sdp
+  \end{verbatim}
+  \item Now enter the following commands, one line at a time:
+  \begin{verbatim}
+    cd perl-net-sdp
+    perl Build.PL
+    sudo ./Build
+    sudo ./Build test
+    sudo ./Build install
+    cd ..
+  \end{verbatim}
+  \item If this command doesn’t return any errors, then the protocol has been installed. We can now install Shairport
+  \begin{verbatim}
+    git clone https://github.com/hendrikw82/shairport.git
+    cd shairport
+    make
+  \end{verbatim}
+  \item Then run one last command to start the Shairport script:
+    \begin{verbatim}
+      /shairport.pl -a PiClub
+    \end{verbatim}
+  The -a command sets the name for the AirPlay Device.
+\end{enumerate}
+\end{document}
