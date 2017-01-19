@@ -1,0 +1,52 @@
+\documentclass[11pt, oneside]{amsart}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\geometry{letterpaper}
+
+\title{Using the Twitter API on the Raspberry Pi}
+\author{Aaron Walker - Raspberry Pi Club}
+
+\begin{document}
+\maketitle
+  Twitter has an API, which allows people to make programs which interact with twitter. We will make 2 programs; one to post things to twitter, and one to retrieve things from twitter. The things we need are as follows
+  \begin{itemize}
+    \item Python 3
+    \item A twitter account
+    \item The twitter API - tweepy
+  \end{itemize}
+  \begin{enumerate}
+    \item Start the raspberry pi and open a terminal
+    \item Ensure that pip is installed using this command
+      \begin{verbatim}
+        sudo apt-get install python-pip
+      \end{verbatim}
+    \item Install tweepy
+      \begin{verbatim}
+        sudo install tweepy
+      \end{verbatim}
+    \item After  Tweepy is installed, we can create a developers account on twitter. Go to apps.twitter.com. Sign in to your account, or create an account. After this has been done, then click on the “Create new App” Button. Give your app a name and a description. In the website field, put htttp://www.examplle.com and leave the callback URL blank. Create the app. Edit the permissions of the app to allow read and write access. Then test OAuth – the authorization system. Create an access token, by going to the Keys and access token page, and clicking “Create my access token”.
+    \item Open IDLE and insert the following text, replacing the appropiate fields:
+      \begin{verbatim}
+        import tweepy
+
+        # Consumer keys and access tokens, used for OAuth
+        consumer_key = “key”
+        consumer_secret = “Secret”
+        access_token = “access_token”
+        access_token_secret = “access_token_secret”
+
+        # OAuth process, using the keys and tokens
+        auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+        auth.set_access_token(access_token, access_token_secret)
+
+        # Creation of the actual interface, using authentication
+        api = tweepy.API(auth)
+
+        # Sample method, used to update a status
+        api.update_status('Hello World!')
+
+      \end{verbatim}
+    \item Check your twitter account - they should be a new tweet that says Hello World!
+  \end{enumerate}
+\end{document}
