@@ -1,0 +1,9 @@
+#Tex Build Files
+
+*.aux
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+*.pdf
+
+*.log
